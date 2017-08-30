@@ -20,6 +20,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     super.viewDidLoad()
     
     navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Import", style: .plain, target: self, action: #selector(importPhoto))
+    navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(sharePhoto))
   }
 
   @objc func importPhoto() {
@@ -46,7 +47,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
   }
   
   func detectFaces() {
-    
     guard let inputImage = inputImage else { return }
     guard let ciImage = CIImage(image: inputImage) else { return }
     
@@ -164,6 +164,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     guard let vw = sender.view else { return }
     detectedFaces[vw.tag].blur = !detectedFaces[vw.tag].blur
     renderBlurredFaces()
+  }
+  
+  @objc func sharePhoto () {
+    guard let img = imageView.image else { return }
+    let ac = UIActivityViewController(activityItems: [img], applicationActivities: nil)
+    present(ac, animated: true)
   }
   
   
